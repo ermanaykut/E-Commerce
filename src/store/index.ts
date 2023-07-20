@@ -1,6 +1,6 @@
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import cartSlice from './slices/cartSlice';
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import productSlice from './slices/productSlice';
 
 const reducers = combineReducers({

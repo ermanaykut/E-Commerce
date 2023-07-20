@@ -1,21 +1,36 @@
-import {View, Text, SafeAreaView, Pressable, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
-
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Pressable,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import styles from './style';
-import {useAppSelector} from '../../store';
+import {useAppDispatch, useAppSelector} from '../../store';
 
 import {CartProduct} from './components';
-import { IProduct } from '../../constants/variables/types';
-import { Button, Icon } from 'custom-components/src';
-import { colors } from '../../constants/variables/colors';
+import {IProduct} from '../../constants/variables/types';
+import {Button, Icon} from 'custom-components/src';
+import {colors} from '../../constants/variables/colors';
 import LoadingCart from '../../components/Loader/LoadingCart';
+import {clearCart} from '../../store/slices/cartSlice';
 
 const CartScreen = () => {
   const cart = useAppSelector(state => state.cart);
   const arr = [...cart];
+  const dispatch = useAppDispatch();
+
   const [totalPrice, setTotalPrice] = useState<any>(0);
+
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [arr]);
+
+  const actionSheetRef = useRef<any>()
 
   const navigation = useNavigation<any>();
   const navigateToBack = () => {
@@ -26,9 +41,10 @@ const CartScreen = () => {
     navigation.navigate('Categories');
   };
 
-  useEffect(() => {
-    calculateTotalPrice();
-  }, [arr]);
+  const clearTheCart = () => {
+    dispatch(clearCart());
+  };
+
 
   const renderItem = ({item}: {item: {item: IProduct; amount: number}}) => (
     <CartProduct item={item} />
@@ -37,7 +53,7 @@ const CartScreen = () => {
   const calculateTotalPrice = () => {
     let price = 0;
     arr.map(x => {
-      const {item = {}, amount = 1} : any = x ?? {};
+      const {item = {}, amount = 1}: any = x ?? {};
       price += Number(item?.price) * Number(amount);
     });
     setTotalPrice(price);
@@ -53,10 +69,16 @@ const CartScreen = () => {
       </View>
       <FlatList data={cart} renderItem={renderItem} />
       {totalPrice > 0 && (
-        <View style={styles.priceContainer}>
-          <Text>Total Price: ${totalPrice}</Text>
-        </View>
+        <>
+          <TouchableOpacity onPress={clearTheCart} style={styles.clearCart}>
+            <Icon name="trash : entypo" size={25} color={colors.darkgrey} />
+          </TouchableOpacity>
+          <View style={styles.priceContainer}>
+            <Text>Total Price: ${totalPrice}</Text>
+          </View>
+        </>
       )}
+
       {totalPrice == 0 && (
         <View style={styles.loadingContainer}>
           <LoadingCart />
@@ -77,4 +99,3 @@ const CartScreen = () => {
 };
 
 export default CartScreen;
-

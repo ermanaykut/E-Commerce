@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface IProduct  {
     brand: string;
     category: string;
     description: string;

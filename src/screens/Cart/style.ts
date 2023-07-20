@@ -39,9 +39,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.darkgrey + 60,
     alignItems: 'center',
     paddingVertical: 20,
-    borderRadius: 30,
+    borderRadius: 20,
     alignSelf: 'center',
-    width: '50%',
+    width: '70%',
+
   },
   loadingContainer: {
     width: width,
@@ -66,7 +67,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightgrey,
     shadowOpacity: 1,
     shadowColor: colors.black,
+    
   },
+  totalPriceText:{
+    fontSize:16,
+  },
+  priceText:{
+    backgroundColor: colors.orange,
+    fontSize:20,
+
+  },
+  clearCart:{
+    position:'absolute',
+    top:60,
+    right:20,
+  }
+
 });
 
 export default styles;

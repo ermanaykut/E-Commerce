@@ -31,10 +31,13 @@ export const cartSlice = createSlice({
       arr[index] = {...arr[index], amount: arr[index].amount + 1};
       return arr;
     },
+    clearCart : () => {
+     return []
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
 export default cartSlice.reducer;
-export const {addToCart, decreaseToAmount, increaseToAmount} =
+export const {addToCart, decreaseToAmount, increaseToAmount,clearCart} =
   cartSlice.actions;
